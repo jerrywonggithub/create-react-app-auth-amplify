@@ -17,6 +17,14 @@ class App extends Component {
       player.load(PLAYBACK_URL);
       player.play();
     }
+    
+        // Log and display timed metadata
+    ivsPlayer.addEventListener(PlayerEventType.TEXT_METADATA_CUE, (cue) => {
+      const metadataText = cue.text;
+      const position = ivsPlayer.getPosition().toFixed(2);
+      console.log(
+          `Player Event - TEXT_METADATA_CUE: "${metadataText}". Observed ${position}s after playback started.`
+      );
   }
 
   render() {
