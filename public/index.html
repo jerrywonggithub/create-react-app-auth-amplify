@@ -36,5 +36,37 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+        <div class="video-container">
+        <video id="amazon-ivs-videojs" class="video-js vjs-4-3 vjs-big-play-centered" controls autoplay playsinline></video>
+    </div>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .video-container {
+            width: 640px;
+            height: 480px;
+            margin: 15px;
+        }
+    </style>
+    <script>
+        (function play() {
+            // Get playback URL from Amazon IVS API
+            var PLAYBACK_URL = 'https://3eda70444b8a.us-west-2.playback.live-video.net/api/video/v1/us-west-2.135709585800.channel.TyrzzzBD9Z8t.m3u8';
+            
+            // Register Amazon IVS as playback technology for Video.js
+            registerIVSTech(videojs);
+
+            // Initialize player
+            var player = videojs('amazon-ivs-videojs', {
+               techOrder: ["AmazonIVS"]
+            }, () => {
+               console.log('Player is ready to use!');
+               // Play stream
+               player.src(PLAYBACK_URL);
+            });
+        })();
+    </script>
   </body>
 </html>
