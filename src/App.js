@@ -16,15 +16,20 @@ class App extends Component {
       player.attachHTMLVideoElement(document.getElementById('video-player'));
       player.load(PLAYBACK_URL);
       player.play();
-    }
-    
-        // Log and display timed metadata
-    ivsPlayer.addEventListener(PlayerEventType.TEXT_METADATA_CUE, (cue) => {
-      const metadataText = cue.text;
-      const position = ivsPlayer.getPosition().toFixed(2);
-      console.log(
-          `Player Event - TEXT_METADATA_CUE: "${metadataText}". Observed ${position}s after playback started.`
+      player.addEventListener(window.IVSPlayer.PlayerEventType.TEXT_METADATA_CUE,
+          function (cue) {
+            console.log('Timed metadata: ', cue.text);
+            let text = document.getElementById('alert-text');
+            if (cue.text.includes('covid')) {
+              let nameString = cue.text.split('{')[1].slice(0, -1);
+              console.log(nameString);
+              text.innerHTML = 'Ooops, quarantine!!!' + nameString;
+            } else {
+              text.innerHTML = 'No Covid Risk Found. Enjoy your day!!';
+            }
+          }
       );
+    }
   }
 
   render() {
